@@ -1,897 +1,796 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light dark" />
-<link rel="icon" href="data:," />
-<title>Massey Appraisal Demand Signing</title>
-<style>
-  :root{
-    --bg:#eef0ec;
-    --surface:#ffffff;
-    --surface-2:#f7f7f4;
-    --ink:#1c2432;
-    --ink-soft:#4b5566;
-    --line:#d9ddd4;
-    --navy:#1b2a4e;
-    --navy-ink:#ffffff;
-    --accent:#b45309;
-    --accent-ink:#ffffff;
-    --ok-bg:#e7f4ec;
-    --ok-ink:#14532d;
-    --ok-line:#9ecfae;
-    --err-bg:#fdeeee;
-    --err-ink:#7f1d1d;
-    --err-line:#e5a3a3;
-    --warn-bg:#fdf3e3;
-    --warn-ink:#6b3d05;
-    --warn-line:#e3c184;
-    --shadow:0 10px 30px rgba(27,42,78,.10), 0 2px 6px rgba(27,42,78,.08);
-    --radius:14px;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#12151b;
-      --surface:#1d222c;
-      --surface-2:#232936;
-      --ink:#eceff4;
-      --ink-soft:#aeb7c4;
-      --line:#39415229;
-      --line:#394152;
-      --navy:#2c3d68;
-      --accent:#d97706;
-      --ok-bg:#14301f;
-      --ok-ink:#a7e8bd;
-      --ok-line:#2f6b45;
-      --err-bg:#3a1d1d;
-      --err-ink:#f3b4b4;
-      --err-line:#7a3b3b;
-      --warn-bg:#38290f;
-      --warn-ink:#f0d29a;
-      --warn-line:#7a5c22;
-      --shadow:0 10px 30px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.35);
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:,">
+  <title>Floyd Massey Appraisal Signature</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #edf2f0;
+      --surface: #ffffff;
+      --surface-2: #f5f8f7;
+      --ink: #17221e;
+      --muted: #52625b;
+      --line: #ccd7d2;
+      --accent: #b92730;
+      --accent-dark: #8e1d25;
+      --green: #176c49;
+      --green-bg: #e4f4eb;
+      --error: #9c2830;
+      --error-bg: #fae8e9;
+      --shadow: 0 18px 55px rgba(25, 43, 36, .12);
+      --focus: #0b6b8c;
     }
-  }
-  *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    line-height:1.5;
-    padding:0 0 48px;
-  }
-  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 0}
-  .intro{margin:6px 2px 18px}
-  .intro h1{
-    font-size:clamp(26px,6vw,36px);
-    line-height:1.12;
-    letter-spacing:-.02em;
-    margin:0 0 8px;
-    font-weight:800;
-  }
-  .intro p{margin:0;color:var(--ink-soft);font-size:16px;max-width:56ch}
-  .facts{
-    display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none;
-  }
-  .facts li{
-    background:var(--surface);border:1px solid var(--line);border-radius:999px;
-    padding:6px 12px;font-size:13.5px;font-weight:600;color:var(--ink);
-  }
-  .facts li span{color:var(--ink-soft);font-weight:500}
-  .card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:26px 22px;
-    margin-top:18px;
-  }
-  @media (min-width:640px){ .card{padding:40px 44px} }
-  .letter{
-    font-family:Georgia,"Times New Roman",Times,serif;
-    font-size:16.5px;
-    line-height:1.65;
-    color:var(--ink);
-  }
-  .letter p{margin:0 0 14px}
-  .letter .date-line{margin-bottom:22px}
-  .letter .re{
-    border-top:2px solid var(--ink);
-    border-bottom:1px solid var(--line);
-    padding:12px 0 10px;
-    margin:20px 0 20px;
-    font-size:15.5px;
-  }
-  .letter .re p{margin:0 0 3px}
-  .letter .re strong{display:inline-block;min-width:118px}
-  .letter .sig-block{margin-top:28px}
-  .letter .sig-line-label{font-size:13px;color:var(--ink-soft);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.02em}
-  .sig-preview-slot{
-    min-height:64px;
-    display:flex;align-items:flex-end;
-    border-bottom:2px solid #1c2432;
-    padding:6px 8px 2px;
-    margin-bottom:6px;
-    background:#ffffff;
-    color:#1c2432;
-    border-radius:6px 6px 0 0;
-  }
-  .sig-preview-slot img{max-height:58px;max-width:240px;display:block;background:#ffffff}
-  .sig-preview-slot .sig-empty{color:#4b5566;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;padding-bottom:8px}
-  .section-title{
-    font-size:19px;font-weight:800;letter-spacing:-.01em;margin:0 0 6px;
-  }
-  .section-sub{margin:0 0 16px;color:var(--ink-soft);font-size:15px}
-  /* Acknowledgment */
-  .ack{
-    display:flex;gap:12px;align-items:flex-start;
-    background:var(--surface-2);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:16px;
-    cursor:pointer;
-  }
-  .ack input{
-    width:24px;height:24px;flex:0 0 24px;margin:1px 0 0;
-    accent-color:var(--navy);
-    cursor:pointer;
-  }
-  .ack span{font-size:15.5px;line-height:1.5}
-  /* Signature box */
-  .sign-box{
-    width:100%;
-    border:2px dashed #8a93a5;
-    border-radius:10px;
-    background:#ffffff;
-    color:#1c2432;
-    min-height:110px;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    padding:10px;
-    text-align:center;
-  }
-  .sign-box.filled{border-style:solid;border-color:#1b2a4e;background:#ffffff}
-  .sign-box img{max-height:88px;max-width:100%;display:block;background:#ffffff}
-  .sign-box .placeholder{color:#4b5566}
-  .sign-box .placeholder strong{display:block;font-size:17px;color:#1c2432;margin-bottom:2px}
-  .sign-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
-  .sign-meta .who{font-size:14.5px;color:var(--ink-soft)}
-  .sign-meta .who strong{color:var(--ink)}
-  .link-btn{
-    background:none;border:none;color:var(--accent);font-weight:700;font-size:15px;
-    padding:6px 2px;cursor:pointer;font-family:inherit;
-  }
-  /* Send button */
-  .send-btn{
-    width:100%;
-    background:var(--navy);color:var(--navy-ink);
-    border:none;border-radius:12px;
-    font-size:18px;font-weight:800;
-    padding:17px 20px;
-    cursor:pointer;
-    font-family:inherit;
-    letter-spacing:.01em;
-  }
-  .send-btn:active{transform:translateY(1px)}
-  .send-btn[disabled]{opacity:.55;cursor:default;transform:none}
-  .btn-row{display:flex;gap:10px;flex-wrap:wrap}
-  .btn-secondary{
-    flex:1 1 200px;
-    background:var(--surface);color:var(--ink);
-    border:1.5px solid var(--navy);border-radius:12px;
-    font-size:16px;font-weight:700;padding:14px 16px;cursor:pointer;font-family:inherit;
-  }
-  /* Status */
-  .status{border-radius:10px;padding:14px 16px;font-size:15.5px;margin-top:16px;display:none}
-  .status.show{display:block}
-  .status.err{background:var(--err-bg);color:var(--err-ink);border:1px solid var(--err-line)}
-  .status.ok{background:var(--ok-bg);color:var(--ok-ink);border:1px solid var(--ok-line)}
-  .status.warn{background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line)}
-  .status strong{display:block;font-size:16.5px;margin-bottom:2px}
-  .fallback-actions{display:none;margin-top:14px}
-  .fallback-actions.show{display:block}
-  .fineprint{font-size:13.5px;color:var(--ink-soft);margin-top:12px;text-align:center}
-  .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0!important}
-  .sent-wrap{max-width:560px;margin:48px auto;padding:32px 24px;text-align:center}
-  .sent-wrap h1{font-size:26px;line-height:1.25;margin:0 0 12px}
-  .sent-wrap p{font-size:17px;line-height:1.55;color:var(--ink)}
-  /* Signature overlay */
-  .pad-overlay{
-    position:fixed;inset:0;z-index:50;
-    background:var(--bg);
-    display:none;
-    flex-direction:column;
-    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-  }
-  .pad-overlay.open{display:flex}
-  .pad-head{
-    padding:18px 18px 10px;
-  }
-  .pad-head h2{margin:0 0 4px;font-size:22px;font-weight:800}
-  .pad-head p{margin:0;color:var(--ink-soft);font-size:14.5px}
-  .pad-canvas-wrap{
-    flex:1;margin:8px 14px;background:#ffffff;border:1.5px solid var(--line);border-radius:12px;
-    position:relative;overflow:hidden;touch-action:none;
-  }
-  .pad-canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;background:#ffffff}
-  .pad-guide{
-    position:absolute;left:18px;right:18px;bottom:26%;
-    border-bottom:1.5px solid #c9cfda;pointer-events:none;
-  }
-  .pad-guide span{
-    position:absolute;left:0;top:4px;font-size:12px;color:#8a93a5;font-family:inherit;
-  }
-  .pad-actions{
-    display:flex;gap:10px;padding:10px 14px 18px;flex-wrap:wrap;
-  }
-  .pad-actions .btn-secondary{flex:1 1 100px}
-  .pad-actions .btn-primary{
-    flex:2 1 160px;background:var(--navy);color:var(--navy-ink);border:none;border-radius:12px;
-    font-size:17px;font-weight:800;padding:14px 16px;cursor:pointer;font-family:inherit;
-  }
-</style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121916;
+        --surface: #1d2723;
+        --surface-2: #25312c;
+        --ink: #edf4f1;
+        --muted: #b5c2bc;
+        --line: #3c4b45;
+        --accent: #e35b63;
+        --accent-dark: #ca434c;
+        --green: #7bd2a9;
+        --green-bg: #17392b;
+        --error: #ff9fa5;
+        --error-bg: #422428;
+        --shadow: 0 20px 65px rgba(0,0,0,.34);
+        --focus: #65c8e6;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 50%, transparent); outline-offset: 3px; }
+
+    .shell {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: clamp(24px, 5vw, 52px) clamp(16px, 4vw, 28px) 52px;
+    }
+    .intro { margin: 0 0 22px; }
+    .intro h1 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(31px, 7vw, 46px);
+      line-height: 1.06;
+      letter-spacing: -.025em;
+      font-weight: 700;
+    }
+    .intro p { margin: 0; color: var(--muted); font-size: 16px; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .case-head {
+      padding: 24px 24px 22px;
+      border-bottom: 4px solid var(--accent);
+      background: var(--surface-2);
+    }
+    .document-title {
+      margin: 0 0 4px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(20px, 5vw, 27px);
+      line-height: 1.2;
+      color: var(--ink);
+    }
+    .document-sub {
+      margin: 0 0 18px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
+    .facts { display: grid; gap: 12px; margin: 0; }
+    .fact { display: grid; grid-template-columns: 150px 1fr; gap: 15px; align-items: baseline; }
+    .fact dt { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .fact dd { margin: 0; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+    .form-body { padding: 24px; }
+    .letter-para {
+      margin: 0 0 16px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    .appraiser-block {
+      margin: 0 0 24px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--accent);
+      background: var(--surface-2);
+      border-radius: 0 10px 10px 0;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .appraiser-block .appraiser-label {
+      margin: 0 0 8px;
+      font-family: ui-sans-serif, -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .appraiser-block .appraiser-name { margin: 0 0 2px; font-size: 19px; font-weight: 700; }
+    .appraiser-block .appraiser-contact { margin: 0; font-size: 16px; }
+    .section-title { margin: 0 0 6px; font-size: 22px; line-height: 1.25; }
+    .affidavit {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-size: 15px;
+    }
+    .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+    .tab {
+      min-width: 92px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .tab[aria-selected="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+    .sig-box {
+      width: 100%;
+      min-height: 132px;
+      padding: 18px;
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+      text-align: center;
+    }
+    .sig-box:hover { border-color: var(--accent); }
+    .sig-box img { max-width: 100%; height: 88px; object-fit: contain; }
+    .draw-prompt strong { display: block; color: var(--ink); font-size: 17px; margin-bottom: 4px; }
+    .type-panel { display: none; }
+    .type-panel.active, .draw-panel.active { display: block; }
+    .draw-panel:not(.active) { display: none; }
+    .field-label { display: block; margin-bottom: 7px; font-weight: 800; }
+    .text-input, .date-input {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 11px 13px;
+    }
+    .typed-preview {
+      min-height: 102px;
+      margin-top: 10px;
+      border-bottom: 1px solid var(--ink);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 12px 10px 7px;
+      color: var(--ink);
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      font-size: clamp(34px, 9vw, 52px);
+      line-height: 1;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+    .details-grid { display: grid; grid-template-columns: 1fr 180px; gap: 16px; margin-top: 22px; }
+    .printed {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-2);
+      font-weight: 700;
+    }
+    .consent {
+      display: grid;
+      grid-template-columns: 23px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin: 22px 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      cursor: pointer;
+    }
+    .consent input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--accent); }
+    .consent span { font-size: 14px; line-height: 1.48; }
+    .validation { min-height: 23px; margin: 10px 0 0; color: var(--error); font-size: 14px; font-weight: 700; }
+    .send-btn {
+      width: 100%;
+      min-height: 56px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(185,39,48,.22);
+    }
+    .send-btn:hover { background: var(--accent-dark); }
+    .send-btn:disabled { cursor: wait; opacity: .66; box-shadow: none; }
+    .status { display: none; margin-top: 16px; padding: 15px 16px; border-radius: 10px; font-weight: 750; }
+    .status.show { display: block; }
+    .status.success { color: var(--green); background: var(--green-bg); }
+    .status.failure { color: var(--error); background: var(--error-bg); }
+    .security-note { margin: 14px 2px 0; color: var(--muted); text-align: center; font-size: 12px; }
+
+    .link-error {
+      display: none;
+      max-width: 600px;
+      margin: 14vh auto 0;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--accent);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .link-error h1 { margin: 0 0 9px; font-family: Georgia, "Times New Roman", serif; font-size: 29px; }
+    .link-error p { margin: 0; color: var(--muted); font-size: 17px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-bottom));
+      background: rgba(8, 15, 12, .78);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.open { display: flex; }
+    .modal-card {
+      width: min(940px, 100%);
+      max-height: 96vh;
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+      overflow: hidden;
+    }
+    .modal-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .modal-head h2 { margin: 0; font-size: 20px; }
+    .close-btn { border: 0; background: transparent; color: var(--muted); padding: 8px; font-weight: 800; cursor: pointer; }
+    .pad-wrap { padding: 14px; background: var(--surface-2); }
+    #signaturePad {
+      display: block;
+      width: 100%;
+      height: min(54vh, 430px);
+      background: #fff;
+      border: 1px solid #bfc8c3;
+      border-radius: 8px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+    .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; padding: 14px 18px 18px; }
+    .action-btn { min-height: 46px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); font-weight: 800; cursor: pointer; }
+    .action-btn.primary { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+    /* Dedicated PDF document: fixed-width letter canvas, tuned to fit ONE page. */
+    #pdfStage {
+      position: fixed;
+      left: -10000px;
+      top: 0;
+      width: 816px;
+      pointer-events: none;
+      background: #fff;
+      color: #17201c;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .pdf-page {
+      width: 816px;
+      padding: 52px 66px 40px;
+      background: #fff;
+      color: #17201c;
+    }
+    .pdf-topline { height: 6px; background: #b92730; margin-bottom: 24px; }
+    .pdf-doc-label { font-family: Arial, sans-serif; font-size: 10px; color: #68746f; letter-spacing: .12em; margin-bottom: 20px; }
+    .pdf-title { margin: 0 0 6px; max-width: 640px; font-size: 29px; line-height: 1.12; letter-spacing: -.015em; }
+    .pdf-subtitle { margin: 0 0 22px; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: #68746f; }
+    .pdf-facts { margin: 0 0 24px; border-top: 1px solid #9ca9a3; }
+    .pdf-fact { display: grid; grid-template-columns: 165px 1fr; min-height: 36px; border-bottom: 1px solid #d2d9d6; align-items: center; }
+    .pdf-fact dt { font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .08em; color: #66736d; }
+    .pdf-fact dd { margin: 0; font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; }
+    .pdf-body { margin: 0 0 12px; font-size: 14px; line-height: 1.58; }
+    .pdf-appraiser { margin: 20px 0; padding: 14px 18px; border-left: 5px solid #b92730; background: #f4f6f5; }
+    .pdf-appraiser .pdf-appraiser-label { font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .08em; color: #66736d; margin-bottom: 5px; }
+    .pdf-appraiser .pdf-appraiser-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .pdf-appraiser .pdf-appraiser-contact { font-size: 13.5px; }
+    .pdf-signature-area { margin-top: 26px; }
+    .pdf-signature-mark { height: 84px; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+    .pdf-signature-mark img { display: block; max-width: 430px; max-height: 78px; object-fit: contain; }
+    .pdf-typed-signature { font-family: "Brush Script MT", "Segoe Script", cursive; font-size: 46px; line-height: 1; text-align: center; }
+    .pdf-signature-line { border-top: 1.5px solid #17201c; padding-top: 6px; font-family: Arial, sans-serif; color: #66736d; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+    .pdf-meta { display: grid; grid-template-columns: 1.6fr .9fr; gap: 28px; margin-top: 20px; }
+    .pdf-value { min-height: 24px; padding-bottom: 5px; border-bottom: 1px solid #68746f; font-family: Arial, sans-serif; font-size: 14px; font-weight: 700; }
+    .pdf-label { padding-top: 5px; font-family: Arial, sans-serif; color: #66736d; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+    .pdf-footer { margin-top: 24px; display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid #d2d9d6; font-family: Arial, sans-serif; color: #68746f; font-size: 10px; }
+
+    @media (max-width: 590px) {
+      .shell { padding-left: 13px; padding-right: 13px; padding-top: 24px; }
+      .case-head, .form-body { padding-left: 18px; padding-right: 18px; }
+      .fact { grid-template-columns: 1fr; gap: 2px; }
+      .details-grid { grid-template-columns: 1fr; }
+      .card { border-radius: 13px; }
+      .modal-actions { justify-content: stretch; }
+      .modal-actions .action-btn { flex: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-<main class="wrap">
-  <div class="intro">
-    <h1>Appraisal Demand Letter</h1>
-    <p>Please read the letter below, check the confirmation box, sign, and tap <strong>Finish &amp; Send</strong>. Your signed letter goes straight to RoofLife.</p>
-    <ul class="facts">
-      <li><span>Homeowner:</span> Floyd Massey</li>
-      <li><span>Property:</span> 964 Win Blu Drive, Dadeville, AL 36853</li>
-      <li><span>Insurer:</span> Auto-Owners</li>
-      <li><span>Claim:</span> 300-0371217-2026</li>
-    </ul>
-  </div>
+  <main class="shell" id="app" hidden>
+    <section class="intro">
+      <h1>Appraisal demand</h1>
+      <p>Review the letter below, add your signature, and send the signed demand.</p>
+    </section>
 
-  <!-- ============ LETTER ============ -->
-  <section class="card letter" aria-label="Appraisal demand letter">
-    <p class="date-line">October 9, 2026</p>
+    <section class="card" aria-labelledby="documentTitle">
+      <header class="case-head">
+        <h2 class="document-title" id="documentTitle">APPRAISAL DEMAND</h2>
+        <p class="document-sub">FORMAL NOTICE TO INVOKE THE POLICY APPRAISAL PROVISION</p>
+        <dl class="facts" id="facts"></dl>
+      </header>
 
-    <p>Floyd Massey<br />
-    964 Win Blu Drive<br />
-    Dadeville, AL 36853</p>
+      <div class="form-body">
+        <div id="letterBody"></div>
 
-    <p>Auto-Owners Insurance Company<br />
-    Re: Demand for Appraisal</p>
+        <div class="appraiser-block">
+          <p class="appraiser-label">Policyholder's selected appraiser</p>
+          <p class="appraiser-name" id="appraiserName"></p>
+          <p class="appraiser-contact" id="appraiserContact"></p>
+        </div>
 
-    <div class="re">
-      <p><strong>Policyholder:</strong> Floyd Massey</p>
-      <p><strong>Property:</strong> 964 Win Blu Drive, Dadeville, AL 36853</p>
-      <p><strong>Insurer:</strong> Auto-Owners</p>
-      <p><strong>Policy Number:</strong> 4135449503</p>
-      <p><strong>Claim Number:</strong> 300-0371217-2026</p>
-      <p><strong>Date of Loss:</strong> March 15, 2026</p>
-    </div>
+        <section aria-labelledby="signatureHeading">
+          <h2 class="section-title" id="signatureHeading">Add your signature</h2>
+          <p class="affidavit">&ldquo;Your signature below invokes the appraisal provision of your policy for the claim above and authorizes submission of this demand.&rdquo;</p>
 
-    <p>Dear Auto-Owners:</p>
+          <div class="tabs" role="tablist" aria-label="Signature method">
+            <button class="tab" id="drawTab" type="button" role="tab" aria-selected="true" aria-controls="drawPanel">Draw</button>
+            <button class="tab" id="typeTab" type="button" role="tab" aria-selected="false" aria-controls="typePanel">Type</button>
+          </div>
 
-    <p>This letter is submitted on behalf of the policyholder, Floyd Massey, for the property listed above. On his behalf, I am writing to formally invoke the appraisal provision of the policy, Policy Number 4135449503, in connection with Claim Number 300-0371217-2026, arising from the loss that occurred on March 15, 2026.</p>
+          <div class="draw-panel active" id="drawPanel" role="tabpanel" aria-labelledby="drawTab">
+            <button class="sig-box" id="openPad" type="button" aria-label="Open signature pad">
+              <span class="draw-prompt" id="drawPrompt"><strong>Tap to sign</strong>A larger signature pad will open.</span>
+              <img id="drawnPreview" alt="Your drawn signature" hidden>
+            </button>
+          </div>
 
-    <p>We have been unable to agree on the amount of the loss. Because we disagree as to the amount of loss, appraisal is hereby demanded on the policyholder&rsquo;s behalf in accordance with the terms and conditions of the policy.</p>
+          <div class="type-panel" id="typePanel" role="tabpanel" aria-labelledby="typeTab">
+            <label class="field-label" for="typedName">Type your signature</label>
+            <input class="text-input" id="typedName" autocomplete="name" inputmode="text" placeholder="Type your full name">
+            <div class="typed-preview" id="typedPreview" aria-live="polite">Your signature</div>
+          </div>
 
-    <p>Pursuant to the appraisal provision, the policyholder has appointed the following competent and impartial appraiser to act on his behalf:</p>
+          <div class="details-grid">
+            <div>
+              <span class="field-label">Printed name</span>
+              <div class="printed" id="printedName"></div>
+            </div>
+            <div>
+              <label class="field-label" for="signDate">Date</label>
+              <input class="date-input" id="signDate" type="date" required>
+            </div>
+          </div>
 
-    <p style="margin-left:18px"><strong>R. Lee Cooper</strong><br />
-    Email: RLeecooper1980@gmail.com<br />
-    Phone: 251-895-0373</p>
+          <label class="consent">
+            <input id="consent" type="checkbox" required>
+            <span>I confirm I am invoking the appraisal provision of my insurance policy for the claim above and agree that my electronic signature may be applied to this appraisal demand</span>
+          </label>
 
-    <p>We request that Auto-Owners appoint its own competent and impartial appraiser within the time required by the policy and notify the policyholder and his appraiser of that appointment. The two appraisers will then select a competent and impartial umpire as provided in the policy; if they are unable to agree on an umpire, either appraiser may request that a judge of a court of record in the state where the property is located make the selection.</p>
-
-    <p>The appraisers will state separately the actual cash value and the amount of the loss, and, if they fail to agree, they will submit their differences to the umpire. An award in writing of any two of the three will determine the amount of the loss, as provided in the policy.</p>
-
-    <p>Each party shall pay its own appraiser, and the parties shall bear the expense of the appraisal and the umpire equally, in accordance with the policy.</p>
-
-    <p>Please contact the policyholder&rsquo;s appraiser, R. Lee Cooper, directly at RLeecooper1980@gmail.com or 251-895-0373 to proceed with the appraisal without delay.</p>
-
-    <p>Thank you for your prompt attention to this demand.</p>
-
-    <p>Respectfully submitted,</p>
-
-    <div class="sig-block">
-      <div class="sig-line-label">Signature</div>
-      <div class="sig-preview-slot" id="letterSigSlot">
-        <span class="sig-empty">Your signature will appear here once you sign below.</span>
+          <p class="validation" id="validation" role="alert" aria-live="assertive"></p>
+          <button class="send-btn" id="sendButton" type="button">Finish &amp; Send</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <p class="security-note">Please tap once and keep this page open until the confirmation appears.</p>
+        </section>
       </div>
-      <p style="margin:0"><strong>John Massey</strong></p>
-      <p style="margin:0">Date: <span id="letterSigDate"></span></p>
-    </div>
+    </section>
+  </main>
+
+  <section class="link-error" id="linkError" role="alert">
+    <h1>We need a new link</h1>
+    <p>This signing link is incomplete. Please contact us for a new link.</p>
   </section>
 
-  <!-- ============ CONFIRM + SIGN ============ -->
-  <section class="card" aria-label="Confirm and sign">
-    <h2 class="section-title">Confirm &amp; sign</h2>
-    <p class="section-sub">Both steps are required before the letter can be sent.</p>
-
-    <label class="ack" for="ackBox">
-      <input type="checkbox" id="ackBox" />
-      <span>I confirm I am invoking the appraisal provision of my insurance policy, that the facts in this letter are correct, and that I authorize RoofLife to submit this signed demand to Auto-Owners on my behalf.</span>
-    </label>
-
-    <div style="height:18px"></div>
-
-    <div class="sign-box" id="signBox" role="button" tabindex="0" aria-label="Tap to sign">
-      <span class="placeholder"><strong>Tap here to sign</strong>Opens a full-screen signature pad</span>
-    </div>
-    <div class="sign-meta">
-      <span class="who">Signing as <strong>John Massey</strong> · Date: <span id="signDateText"></span></span>
-      <button type="button" class="link-btn" id="clearSigBtn" style="display:none">Clear signature</button>
-    </div>
-
-    <div style="height:20px"></div>
-
-    <button type="button" class="send-btn" id="sendBtn">Finish &amp; Send</button>
-
-    <div class="status" id="statusBox" role="status" aria-live="polite"></div>
-
-    <div class="fallback-actions" id="fallbackActions">
-      <div class="btn-row">
-        <button type="button" class="btn-secondary" id="downloadBtn">Download your signed letter</button>
-        <button type="button" class="btn-secondary" id="shareBtn">Share your signed letter</button>
+  <div class="modal" id="padModal" role="dialog" aria-modal="true" aria-labelledby="padTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="padTitle">Draw your signature</h2>
+        <button class="close-btn" id="closePad" type="button">Cancel</button>
       </div>
-      <p class="fineprint">After downloading, please text or email the file to RoofLife so they have your signed demand.</p>
+      <div class="pad-wrap"><canvas id="signaturePad"></canvas></div>
+      <div class="modal-actions">
+        <button class="action-btn" id="undoPad" type="button">Undo</button>
+        <button class="action-btn" id="clearPad" type="button">Clear</button>
+        <button class="action-btn primary" id="donePad" type="button">Done</button>
+      </div>
     </div>
-  </section>
-</main>
-
-<!-- ============ SIGNATURE PAD OVERLAY ============ -->
-<div class="pad-overlay" id="padOverlay" aria-hidden="true">
-  <div class="pad-head">
-    <h2>Sign your name</h2>
-    <p>Use your finger to sign inside the box, then tap “Use signature.”</p>
   </div>
-  <div class="pad-canvas-wrap" id="padWrap">
-    <canvas id="padCanvas"></canvas>
-    <div class="pad-guide"><span>Sign above the line</span></div>
+
+  <div id="pdfStage" aria-hidden="true">
+    <article class="pdf-page" id="pdfPage">
+      <div class="pdf-topline"></div>
+      <div class="pdf-doc-label">APPRAISAL DEMAND &bull; POLICY APPRAISAL PROVISION</div>
+      <h1 class="pdf-title">APPRAISAL DEMAND</h1>
+      <p class="pdf-subtitle">FORMAL NOTICE TO INVOKE THE POLICY APPRAISAL PROVISION</p>
+      <dl class="pdf-facts" id="pdfFacts"></dl>
+      <div id="pdfLetterBody"></div>
+      <div class="pdf-appraiser">
+        <div class="pdf-appraiser-label">POLICYHOLDER'S SELECTED APPRAISER</div>
+        <div class="pdf-appraiser-name" id="pdfAppraiserName"></div>
+        <div class="pdf-appraiser-contact" id="pdfAppraiserContact"></div>
+      </div>
+      <section class="pdf-signature-area">
+        <div class="pdf-signature-mark" id="pdfSignatureMark"></div>
+        <div class="pdf-signature-line">Policyholder's signature</div>
+        <div class="pdf-meta">
+          <div><div class="pdf-value" id="pdfPrintedName"></div><div class="pdf-label">Printed name</div></div>
+          <div><div class="pdf-value" id="pdfDate"></div><div class="pdf-label">Date</div></div>
+        </div>
+      </section>
+      <footer class="pdf-footer"><span id="pdfFooterIdentity"></span><span>Signed appraisal demand</span></footer>
+    </article>
   </div>
-  <div class="pad-actions">
-    <button type="button" class="btn-secondary" id="padClearBtn">Clear</button>
-    <button type="button" class="btn-secondary" id="padCancelBtn">Cancel</button>
-    <button type="button" class="btn-primary" id="padDoneBtn">Use signature</button>
-  </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-(function(){
-  "use strict";
+  <script>
+    (function () {
+      "use strict";
 
-  /* ---------- Sent state (FormSubmit redirect) ---------- */
-  try {
-    var _qs = new URLSearchParams(window.location.search);
-    if (_qs.get("sent") === "1") {
-      document.body.innerHTML = '<main class="sent-wrap"><p>Your signed letter has been sent to RoofLife. You can close this page — thank you.</p></main>';
-      return;
-    }
-  } catch(e) {}
+      var DATA = {"endpoint": "https://script.google.com/macros/s/AKfycbwfFtu66WgrVre0CVfaZvd5EJEB3IfHgDt8WH6MMSC9cLPY5T_zYUU55dZyHphMIeCY/exec", "person": "Floyd Massey", "signer": "John Massey", "job": "99-3254", "claim": "300-0371217-2026", "policy": "4135449503", "property": "964 Win Blu Drive, Dadeville, AL 36853", "phone": "3343155082", "company": "Auto-Owners", "letterDate": "October 09, 2026", "lossDate": "March 15, 2026", "appraiserName": "R. Lee Cooper", "appraiserContact": "RLeecooper1980@gmail.com | 251-895-0373"};
 
-  var PDF_FILENAME = "Signed appraisal demand - Floyd Massey - 99-3254.pdf";
+      var ENDPOINT = DATA.endpoint;
+      var person = DATA.person;
+      var signer = DATA.signer;
+      var job = DATA.job;
+      var claim = DATA.claim;
+      var policy = DATA.policy;
+      var property = DATA.property;
+      var phone = DATA.phone;
+      var company = DATA.company;
+      var letterDate = DATA.letterDate;
+      var lossDate = DATA.lossDate;
+      var appraiserName = DATA.appraiserName;
+      var appraiserContact = DATA.appraiserContact;
 
-  /* ---------- Dates ---------- */
-  function todayLong(){
-    return new Date().toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" });
-  }
-  document.getElementById("letterSigDate").textContent = todayLong();
-  document.getElementById("signDateText").textContent = todayLong();
-
-  /* ---------- Elements ---------- */
-  var ackBox = document.getElementById("ackBox");
-  var signBox = document.getElementById("signBox");
-  var letterSigSlot = document.getElementById("letterSigSlot");
-  var clearSigBtn = document.getElementById("clearSigBtn");
-  var sendBtn = document.getElementById("sendBtn");
-  var statusBox = document.getElementById("statusBox");
-  var fallbackActions = document.getElementById("fallbackActions");
-  var downloadBtn = document.getElementById("downloadBtn");
-  var shareBtn = document.getElementById("shareBtn");
-
-  var overlay = document.getElementById("padOverlay");
-  var padWrap = document.getElementById("padWrap");
-  var padCanvas = document.getElementById("padCanvas");
-  var padCtx = padCanvas.getContext("2d");
-
-  var signatureDataUrl = null;   // PNG data URL of the confirmed signature
-  var padHasInk = false;
-  var drawing = false;
-  var lastX = 0, lastY = 0;
-
-  var lastPdfBlob = null;
-  var sending = false;
-
-  /* ---------- Status helpers ---------- */
-  function showStatus(kind, html){
-    statusBox.className = "status show " + kind;
-    statusBox.innerHTML = html;
-  }
-  function clearStatus(){
-    statusBox.className = "status";
-    statusBox.innerHTML = "";
-  }
-
-  /* ---------- Signature pad ---------- */
-  function sizePadCanvas(){
-    var rect = padWrap.getBoundingClientRect();
-    var dpr = window.devicePixelRatio || 1;
-    var prev = null;
-    if (padHasInk) {
-      try { prev = padCanvas.toDataURL("image/png"); } catch(e) {}
-    }
-    padCanvas.width = Math.max(300, Math.round(rect.width * dpr));
-    padCanvas.height = Math.max(220, Math.round(rect.height * dpr));
-    padCtx = padCanvas.getContext("2d");
-    padCtx.lineWidth = 2.6 * dpr;
-    padCtx.lineCap = "round";
-    padCtx.lineJoin = "round";
-    padCtx.strokeStyle = "#16213a";
-    if (prev) {
-      var img = new Image();
-      img.onload = function(){ padCtx.drawImage(img, 0, 0, padCanvas.width, padCanvas.height); };
-      img.src = prev;
-    }
-  }
-
-  function openPad(){
-    overlay.classList.add("open");
-    overlay.setAttribute("aria-hidden","false");
-    document.body.style.overflow = "hidden";
-    requestAnimationFrame(function(){
-      sizePadCanvas();
-      if (signatureDataUrl) {
-        var img = new Image();
-        img.onload = function(){
-          padCtx.clearRect(0,0,padCanvas.width,padCanvas.height);
-          var scale = Math.min(padCanvas.width / img.width, padCanvas.height / img.height) * 0.92;
-          var w = img.width * scale, h = img.height * scale;
-          padCtx.drawImage(img, (padCanvas.width - w)/2, (padCanvas.height - h)/2, w, h);
-          padHasInk = true;
-        };
-        img.src = signatureDataUrl;
+      var app = document.getElementById("app");
+      var linkError = document.getElementById("linkError");
+      if (!person || !claim) {
+        linkError.style.display = "block";
+        return;
       }
-    });
-  }
-  function closePad(){
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden","true");
-    document.body.style.overflow = "";
-  }
+      app.hidden = false;
 
-  function padPos(evt){
-    var rect = padCanvas.getBoundingClientRect();
-    var dpr = window.devicePixelRatio || 1;
-    return {
-      x: (evt.clientX - rect.left) * dpr,
-      y: (evt.clientY - rect.top) * dpr
-    };
-  }
-  padCanvas.addEventListener("pointerdown", function(e){
-    e.preventDefault();
-    drawing = true;
-    padCanvas.setPointerCapture(e.pointerId);
-    var p = padPos(e);
-    lastX = p.x; lastY = p.y;
-    padCtx.beginPath();
-    padCtx.moveTo(lastX, lastY);
-    padCtx.lineTo(lastX + 0.1, lastY + 0.1);
-    padCtx.stroke();
-    padHasInk = true;
-  });
-  padCanvas.addEventListener("pointermove", function(e){
-    if (!drawing) return;
-    e.preventDefault();
-    var p = padPos(e);
-    padCtx.beginPath();
-    padCtx.moveTo(lastX, lastY);
-    padCtx.lineTo(p.x, p.y);
-    padCtx.stroke();
-    lastX = p.x; lastY = p.y;
-  });
-  function endDraw(){ drawing = false; }
-  padCanvas.addEventListener("pointerup", endDraw);
-  padCanvas.addEventListener("pointercancel", endDraw);
+      var fields = [
+        ["HOMEOWNER", person],
+        company ? ["INSURANCE COMPANY", company] : null,
+        ["CLAIM NUMBER", claim],
+        policy ? ["POLICY NUMBER", policy] : null,
+        property ? ["PROPERTY", property] : null,
+        lossDate ? ["DATE OF LOSS", lossDate] : null,
+        phone ? ["PHONE", phone] : null,
+        letterDate ? ["LETTER DATE", letterDate] : null
+      ].filter(Boolean);
 
-  function trimCanvasToInk(src){
-    var w = src.width, h = src.height;
-    var ctx = src.getContext("2d");
-    var data;
-    try { data = ctx.getImageData(0,0,w,h).data; } catch(e) { return src; }
-    var minX = w, minY = h, maxX = -1, maxY = -1;
-    for (var y = 0; y < h; y++){
-      for (var x = 0; x < w; x++){
-        var a = data[(y*w + x)*4 + 3];
-        if (a > 10){
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-        }
+      function factMarkup(items, pdf) {
+        return items.map(function (item) {
+          return '<div class="' + (pdf ? "pdf-fact" : "fact") + '"><dt>' + escapeHtml(item[0]) + '</dt><dd>' + escapeHtml(item[1]) + '</dd></div>';
+        }).join("");
       }
-    }
-    if (maxX < 0) return null;
-    var pad = 14;
-    minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
-    maxX = Math.min(w - 1, maxX + pad); maxY = Math.min(h - 1, maxY + pad);
-    var out = document.createElement("canvas");
-    out.width = maxX - minX + 1;
-    out.height = maxY - minY + 1;
-    out.getContext("2d").drawImage(src, minX, minY, out.width, out.height, 0, 0, out.width, out.height);
-    return out;
-  }
-
-  function padIsBlank(){
-    if (!padHasInk) return true;
-    return trimCanvasToInk(padCanvas) === null;
-  }
-
-  document.getElementById("padClearBtn").addEventListener("click", function(){
-    padCtx.clearRect(0,0,padCanvas.width,padCanvas.height);
-    padHasInk = false;
-  });
-  document.getElementById("padCancelBtn").addEventListener("click", closePad);
-  document.getElementById("padDoneBtn").addEventListener("click", function(){
-    if (padIsBlank()){
-      padCtx.clearRect(0,0,padCanvas.width,padCanvas.height);
-      padHasInk = false;
-      closePad();
-      clearSignature();
-      showStatus("err", "<strong>Signature is blank.</strong>Tap the signature box and sign with your finger, then tap \u201CUse signature.\u201D");
-      return;
-    }
-    var trimmed = trimCanvasToInk(padCanvas);
-    signatureDataUrl = trimmed.toDataURL("image/png");
-    renderSignature();
-    closePad();
-    clearStatus();
-  });
-
-  function renderSignature(){
-    if (signatureDataUrl){
-      signBox.classList.add("filled");
-      signBox.innerHTML = "";
-      var img = document.createElement("img");
-      img.src = signatureDataUrl;
-      img.alt = "Your signature";
-      signBox.appendChild(img);
-      letterSigSlot.innerHTML = "";
-      var img2 = document.createElement("img");
-      img2.src = signatureDataUrl;
-      img2.alt = "Signature of John Massey";
-      letterSigSlot.appendChild(img2);
-      clearSigBtn.style.display = "";
-    }
-  }
-  function clearSignature(){
-    signatureDataUrl = null;
-    signBox.classList.remove("filled");
-    signBox.innerHTML = "<span class=\"placeholder\"><strong>Tap here to sign</strong>Opens a full-screen signature pad</span>";
-    letterSigSlot.innerHTML = "<span class=\"sig-empty\">Your signature will appear here once you sign below.</span>";
-    clearSigBtn.style.display = "none";
-  }
-  signBox.addEventListener("click", openPad);
-  signBox.addEventListener("keydown", function(e){
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPad(); }
-  });
-  clearSigBtn.addEventListener("click", function(e){
-    e.stopPropagation();
-    clearSignature();
-  });
-
-  /* ---------- PDF generation (self-contained, no external library) ---------- */
-  function wrapText(text, maxChars){
-    var words = text.split(/\s+/);
-    var lines = [];
-    var cur = "";
-    for (var i = 0; i < words.length; i++){
-      var w = words[i];
-      if ((cur + " " + w).trim().length > maxChars){
-        if (cur) lines.push(cur);
-        cur = w;
-      } else {
-        cur = cur ? cur + " " + w : w;
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, function (ch) {
+          return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch];
+        });
       }
-    }
-    if (cur) lines.push(cur);
-    return lines;
-  }
-  function pdfEscape(s){
-    return s.replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)");
-  }
+      function letterParagraphs() {
+        return [
+          "To Whom It May Concern:",
+          "I, the undersigned policyholder, disagree with the amount of loss determined and/or estimated by my insurance carrier for the above-referenced claim. I believe the amount issued or proposed is insufficient to restore my property to its pre-loss condition.",
+          "Therefore, I hereby exercise my Right to Appraisal pursuant to the terms and conditions of my insurance policy. This letter shall serve as my formal written notice and demand to invoke the appraisal provision of the policy.",
+          "Please direct all communications, information, estimates, reports, photographs, and other documentation relating to the appraisal process to " + appraiserName + ".",
+          "Please provide the name and contact information of the appraiser selected by the insurance company within 20 days of receipt of this notice, as required by the applicable policy provisions and/or law.",
+          "If the insurance company declines or denies my demand for appraisal, please provide the specific basis for that decision in writing, including the applicable policy language supporting the denial.",
+          "Thank you for your prompt attention to this matter. Sincerely,"
+        ];
+      }
 
-  // Letter content for the PDF — mirrors the letter shown on the page.
-  function letterBlocks(signDate){
-    var B = [];
-    function p(text, opts){ B.push(Object.assign({type:"p", text:text}, opts||{})); }
-    function gap(n){ B.push({type:"gap", n:n||1}); }
-    p("October 9, 2026");
-    gap(1);
-    p("Floyd Massey");
-    p("964 Win Blu Drive");
-    p("Dadeville, AL 36853");
-    gap(1);
-    p("Auto-Owners Insurance Company");
-    p("Re: Demand for Appraisal");
-    gap(1);
-    p("Policyholder: Floyd Massey", {bold:true});
-    p("Property: 964 Win Blu Drive, Dadeville, AL 36853", {bold:true});
-    p("Insurer: Auto-Owners", {bold:true});
-    p("Policy Number: 4135449503", {bold:true});
-    p("Claim Number: 300-0371217-2026", {bold:true});
-    p("Date of Loss: March 15, 2026", {bold:true});
-    gap(1);
-    p("Dear Auto-Owners:");
-    gap(1);
-    p("This letter is submitted on behalf of the policyholder, Floyd Massey, for the property listed above. On his behalf, I am writing to formally invoke the appraisal provision of the policy, Policy Number 4135449503, in connection with Claim Number 300-0371217-2026, arising from the loss that occurred on March 15, 2026.");
-    gap(1);
-    p("We have been unable to agree on the amount of the loss. Because we disagree as to the amount of loss, appraisal is hereby demanded on the policyholder's behalf in accordance with the terms and conditions of the policy.");
-    gap(1);
-    p("Pursuant to the appraisal provision, the policyholder has appointed the following competent and impartial appraiser to act on his behalf:");
-    gap(1);
-    p("R. Lee Cooper", {bold:true, indent:24});
-    p("Email: RLeecooper1980@gmail.com", {indent:24});
-    p("Phone: 251-895-0373", {indent:24});
-    gap(1);
-    p("We request that Auto-Owners appoint its own competent and impartial appraiser within the time required by the policy and notify the policyholder and his appraiser of that appointment. The two appraisers will then select a competent and impartial umpire as provided in the policy; if they are unable to agree on an umpire, either appraiser may request that a judge of a court of record in the state where the property is located make the selection.");
-    gap(1);
-    p("The appraisers will state separately the actual cash value and the amount of the loss, and, if they fail to agree, they will submit their differences to the umpire. An award in writing of any two of the three will determine the amount of the loss, as provided in the policy.");
-    gap(1);
-    p("Each party shall pay its own appraiser, and the parties shall bear the expense of the appraisal and the umpire equally, in accordance with the policy.");
-    gap(1);
-    p("Please contact the policyholder's appraiser, R. Lee Cooper, directly at RLeecooper1980@gmail.com or 251-895-0373 to proceed with the appraisal without delay.");
-    gap(1);
-    p("Thank you for your prompt attention to this demand.");
-    gap(1);
-    p("Respectfully submitted,");
-    return B;
-  }
+      document.getElementById("facts").innerHTML = factMarkup(fields, false);
+      document.getElementById("pdfFacts").innerHTML = factMarkup(fields, true);
+      document.getElementById("letterBody").innerHTML = letterParagraphs().map(function (p) {
+        return '<p class="letter-para">' + escapeHtml(p) + "</p>";
+      }).join("");
+      document.getElementById("pdfLetterBody").innerHTML = letterParagraphs().map(function (p) {
+        return '<p class="pdf-body">' + escapeHtml(p) + "</p>";
+      }).join("");
+      document.getElementById("appraiserName").textContent = appraiserName;
+      document.getElementById("appraiserContact").textContent = appraiserContact;
+      document.getElementById("pdfAppraiserName").textContent = appraiserName;
+      document.getElementById("pdfAppraiserContact").textContent = appraiserContact;
+      document.getElementById("printedName").textContent = signer;
+      document.getElementById("pdfPrintedName").textContent = signer;
+      document.getElementById("pdfFooterIdentity").textContent = person;
 
-  function signatureJpeg(){
-    // Draw the PNG signature onto white and export as JPEG for the PDF.
-    var img = new Image();
-    return new Promise(function(resolve, reject){
-      img.onload = function(){
-        var c = document.createElement("canvas");
-        c.width = img.width; c.height = img.height;
-        var ctx = c.getContext("2d");
+      var dateInput = document.getElementById("signDate");
+      var now = new Date();
+      var localToday = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+      dateInput.value = localToday;
+
+      var signatureMode = "draw";
+      var drawnSignature = "";
+      var typedName = document.getElementById("typedName");
+      var typedPreview = document.getElementById("typedPreview");
+      var drawTab = document.getElementById("drawTab");
+      var typeTab = document.getElementById("typeTab");
+      var drawPanel = document.getElementById("drawPanel");
+      var typePanel = document.getElementById("typePanel");
+
+      function setMode(mode) {
+        signatureMode = mode;
+        var drawing = mode === "draw";
+        drawTab.setAttribute("aria-selected", String(drawing));
+        typeTab.setAttribute("aria-selected", String(!drawing));
+        drawPanel.classList.toggle("active", drawing);
+        typePanel.classList.toggle("active", !drawing);
+        document.getElementById("validation").textContent = "";
+        if (!drawing) typedName.focus();
+      }
+      drawTab.addEventListener("click", function () { setMode("draw"); });
+      typeTab.addEventListener("click", function () { setMode("type"); });
+      typedName.addEventListener("input", function () {
+        typedPreview.textContent = typedName.value.trim() || "Your signature";
+      });
+
+      var modal = document.getElementById("padModal");
+      var canvas = document.getElementById("signaturePad");
+      var ctx = canvas.getContext("2d");
+      var drawing = false;
+      var moved = false;
+      var undoStack = [];
+      var lastPoint = null;
+      var savedBeforeOpen = "";
+
+      function sizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var previous = canvas.width ? canvas.toDataURL("image/png") : "";
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#15201b";
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0,0,c.width,c.height);
-        ctx.drawImage(img,0,0);
-        resolve({ dataUrl: c.toDataURL("image/jpeg", 0.92), width: c.width, height: c.height });
-      };
-      img.onerror = reject;
-      img.src = signatureDataUrl;
-    });
-  }
-  function base64ToBytes(b64){
-    var bin = atob(b64);
-    var bytes = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return bytes;
-  }
-
-  function buildPdfBytes(jpeg, signDate){
-    var PAGE_W = 612, PAGE_H = 792, MARGIN = 54, TOP = 738, BOTTOM = 56;
-    var LINE_H = 15, FONT_SIZE = 10.5, MAX_CHARS = 86;
-
-    // Flatten blocks into display lines
-    var lines = [];
-    letterBlocks(signDate).forEach(function(b){
-      if (b.type === "gap"){ for (var g=0; g<(b.n||1); g++) lines.push(null); return; }
-      var indent = b.indent || 0;
-      var maxC = MAX_CHARS - Math.round(indent/6);
-      wrapText(b.text, maxC).forEach(function(t){
-        lines.push({ text:t, bold:!!b.bold, indent:indent });
-      });
-    });
-
-    // Paginate; reserve room on the final page for the signature block (~110pt)
-    var SIG_RESERVE_LINES = 8;
-    var pages = [];
-    var cur = [];
-    lines.forEach(function(ln){
-      if (cur.length >= 44){ pages.push(cur); cur = []; }
-      cur.push(ln);
-    });
-    if (cur.length > 44 - SIG_RESERVE_LINES){ pages.push(cur); cur = []; }
-    pages.push(cur);
-
-    // Build content streams
-    var imgW = 175;
-    var imgH = Math.max(24, Math.min(64, imgW * (jpeg.height / jpeg.width)));
-
-    var streams = pages.map(function(pageLines, pi){
-      var s = "";
-      var y = TOP;
-      pageLines.forEach(function(ln){
-        if (ln){
-          var font = ln.bold ? "F2" : "F1";
-          var x = MARGIN + (ln.indent || 0);
-          s += "BT /" + font + " " + FONT_SIZE + " Tf 1 0 0 1 " + x.toFixed(1) + " " + y.toFixed(1) + " Tm (" + pdfEscape(ln.text) + ") Tj ET\n";
-        }
-        y -= LINE_H;
-      });
-      if (pi === pages.length - 1){
-        y -= 6;
-        // signature image
-        var sigY = y - imgH;
-        s += "q " + imgW.toFixed(1) + " 0 0 " + imgH.toFixed(1) + " " + MARGIN + " " + sigY.toFixed(1) + " cm /Im1 Do Q\n";
-        y = sigY - 8;
-        // signature line
-        s += "0.2 w " + MARGIN + " " + y.toFixed(1) + " m " + (MARGIN + 220) + " " + y.toFixed(1) + " l S\n";
-        y -= 14;
-        s += "BT /F2 " + FONT_SIZE + " Tf 1 0 0 1 " + MARGIN + " " + y.toFixed(1) + " Tm (John Massey) Tj ET\n";
-        y -= LINE_H;
-        s += "BT /F1 " + FONT_SIZE + " Tf 1 0 0 1 " + MARGIN + " " + y.toFixed(1) + " Tm (" + pdfEscape("Date: " + signDate) + ") Tj ET\n";
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        if (savedBeforeOpen || previous) loadCanvasImage(savedBeforeOpen || previous);
       }
-      return s;
-    });
-
-    var jpegBytes = base64ToBytes(jpeg.dataUrl.split(",")[1]);
-
-    // Assemble objects
-    // 1 Catalog, 2 Pages, 3 Helvetica, 4 Helvetica-Bold, 5 Image, then per page: Page + Content
-    var numPages = pages.length;
-    var kids = [];
-    for (var i = 0; i < numPages; i++) kids.push((6 + i*2) + " 0 R");
-
-    var objects = []; // {num, bytes(Uint8Array)} — plain dicts encoded as latin1 via TextEncoder (ASCII only)
-    var enc = new TextEncoder();
-    function obj(num, content){ objects.push({ num:num, bytes: (typeof content === "string") ? enc.encode(content) : content }); }
-    function streamObj(num, dict, streamBytes){
-      var head = enc.encode(num + " 0 obj\n<< " + dict + " /Length " + streamBytes.length + " >>\nstream\n");
-      var tail = enc.encode("\nendstream\nendobj\n");
-      var all = new Uint8Array(head.length + streamBytes.length + tail.length);
-      all.set(head, 0); all.set(streamBytes, head.length); all.set(tail, head.length + streamBytes.length);
-      objects.push({ num:num, bytes: all });
-    }
-
-    obj(1, "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
-    obj(2, "2 0 obj\n<< /Type /Pages /Kids [" + kids.join(" ") + "] /Count " + numPages + " >>\nendobj\n");
-    obj(3, "3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n");
-    obj(4, "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n");
-    streamObj(5, "/Type /XObject /Subtype /Image /Width " + jpeg.width + " /Height " + jpeg.height + " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode", jpegBytes);
-
-    for (var p = 0; p < numPages; p++){
-      var pageNum = 6 + p*2, contentNum = 7 + p*2;
-      obj(pageNum, pageNum + " 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + PAGE_W + " " + PAGE_H + "] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents " + contentNum + " 0 R >>\nendobj\n");
-      streamObj(contentNum, "", enc.encode(streams[p]));
-    }
-
-    objects.sort(function(a,b){ return a.num - b.num; });
-
-    var header = enc.encode("%PDF-1.4\n%\xe2\xe3\xcf\xd3\n");
-    var total = header.length;
-    var offsets = {};
-    objects.forEach(function(o){ offsets[o.num] = total; total += o.bytes.length; });
-    var xrefPos = total;
-    var maxObj = 5 + numPages*2 + 1;
-    var xref = "xref\n0 " + (maxObj + 1) + "\n0000000000 65535 f \n";
-    for (var n = 1; n <= maxObj; n++){
-      var off = offsets[n] || 0;
-      xref += String(off).padStart(10,"0") + " 00000 n \n";
-    }
-    var trailer = "trailer\n<< /Size " + (maxObj + 1) + " /Root 1 0 R >>\nstartxref\n" + xrefPos + "\n%%EOF";
-    var xrefBytes = enc.encode(xref + trailer);
-    total += xrefBytes.length;
-
-    var pdf = new Uint8Array(total);
-    var pos = 0;
-    pdf.set(header, pos); pos += header.length;
-    objects.forEach(function(o){ pdf.set(o.bytes, pos); pos += o.bytes.length; });
-    pdf.set(xrefBytes, pos);
-    return pdf;
-  }
-
-  function bytesToBase64(bytes){
-    var CHUNK = 0x8000;
-    var out = "";
-    for (var i = 0; i < bytes.length; i += CHUNK){
-      out += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
-    }
-    return btoa(out);
-  }
-
-  function buildSignedPdf(){
-    return signatureJpeg().then(function(jpeg){
-      var bytes = buildPdfBytes(jpeg, todayLong());
-      lastPdfBlob = new Blob([bytes], { type:"application/pdf" });
-      return { bytes: bytes, base64: bytesToBase64(bytes) };
-    });
-  }
-
-  /* ---------- Send via classic form submission (FormSubmit) ---------- */
-  sendBtn.addEventListener("click", function(){
-    if (sending) return;
-    fallbackActions.classList.remove("show");
-
-    if (!ackBox.checked){
-      showStatus("err", "<strong>Please check the confirmation box</strong>Confirm you are invoking the appraisal provision of your policy, then tap Finish &amp; Send again.");
-      ackBox.focus();
-      return;
-    }
-    if (!signatureDataUrl){
-      showStatus("err", "<strong>A signature is required.</strong>Tap the signature box, sign with your finger, and tap \u201CUse signature\u201D before sending.");
-      signBox.focus();
-      return;
-    }
-
-    sending = true;
-    sendBtn.disabled = true;
-    sendBtn.textContent = "Sending\u2026";
-    showStatus("warn", "<strong>Sending your signed letter\u2026</strong>Please keep this page open.");
-
-    buildSignedPdf().then(function(pdf){
-      var reader = new FileReader();
-      reader.onload = function(){
-        var b64 = String(reader.result).split(",")[1];
-        var params = {
-          subject: "Signed appraisal demand \u2014 Floyd Massey 99-3254",
-          message: "Signed appraisal demand letter attached (Floyd Massey, 99-3254).",
-          pdf_filename: PDF_FILENAME,
-          pdf_content: b64
+      function loadCanvasImage(src) {
+        if (!src) return;
+        var image = new Image();
+        image.onload = function () {
+          var rect = canvas.getBoundingClientRect();
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, rect.width, rect.height);
+          ctx.drawImage(image, 0, 0, rect.width, rect.height);
         };
-        var attempt = 0;
-        function trySend(){
-          attempt++;
-          emailjs.send("service_xsx92np", "template_61vsv89", params).then(function(){
-            sendBtn.textContent = "Sent";
-            showStatus("ok", "<strong>Your signed letter has been sent to RoofLife.</strong>Thank you \u2014 you can close this page.");
-          }, function(){
-            if (attempt < 4){
-              showStatus("warn", "<strong>Sending your signed letter\u2026</strong>Please keep this page open. (try " + (attempt + 1) + " of 4)");
-              setTimeout(trySend, attempt * 1500);
-            } else {
-              sending = false;
-              sendBtn.disabled = false;
-              sendBtn.textContent = "Finish & Send";
-              showStatus("err", "<strong>We couldn\u2019t send your letter automatically.</strong>Please download your signed letter below and text or email it to RoofLife \u2014 your signature is saved in the file.");
-              fallbackActions.classList.add("show");
-            }
-          });
+        image.src = src;
+      }
+      function pointFromEvent(event) {
+        var rect = canvas.getBoundingClientRect();
+        return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      }
+      function canvasSnapshot() { return canvas.toDataURL("image/png"); }
+      canvas.addEventListener("pointerdown", function (event) {
+        event.preventDefault();
+        canvas.setPointerCapture(event.pointerId);
+        undoStack.push(canvasSnapshot());
+        if (undoStack.length > 20) undoStack.shift();
+        drawing = true;
+        moved = false;
+        lastPoint = pointFromEvent(event);
+      });
+      canvas.addEventListener("pointermove", function (event) {
+        if (!drawing) return;
+        event.preventDefault();
+        var point = pointFromEvent(event);
+        ctx.beginPath();
+        ctx.moveTo(lastPoint.x, lastPoint.y);
+        ctx.lineTo(point.x, point.y);
+        ctx.stroke();
+        lastPoint = point;
+        moved = true;
+      });
+      function stopDrawing(event) {
+        if (!drawing) return;
+        if (!moved && lastPoint) {
+          ctx.beginPath();
+          ctx.arc(lastPoint.x, lastPoint.y, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = "#15201b";
+          ctx.fill();
         }
-        trySend();
-      };
-      reader.onerror = function(){
-        sending = false;
-        sendBtn.disabled = false;
-        sendBtn.textContent = "Finish & Send";
-        showStatus("err", "<strong>Something went wrong preparing your letter.</strong>Please try tapping Finish &amp; Send again.");
-      };
-      reader.readAsDataURL(lastPdfBlob);
-    }).catch(function(){
-      sending = false;
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Finish & Send";
-      showStatus("err", "<strong>Something went wrong preparing your letter.</strong>Please try tapping Finish &amp; Send again.");
-    });
-  });
+        drawing = false;
+        if (event && canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      }
+      canvas.addEventListener("pointerup", stopDrawing);
+      canvas.addEventListener("pointercancel", stopDrawing);
 
-  /* ---------- Fallback: download & share ---------- */
-  downloadBtn.addEventListener("click", function(){
-    if (!lastPdfBlob) return;
-    var url = URL.createObjectURL(lastPdfBlob);
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = PDF_FILENAME;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-  });
+      function openPad() {
+        savedBeforeOpen = drawnSignature;
+        undoStack = [];
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        requestAnimationFrame(function () { sizeCanvas(); document.getElementById("donePad").focus(); });
+      }
+      function closePad() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+        document.getElementById("openPad").focus();
+      }
+      document.getElementById("openPad").addEventListener("click", openPad);
+      document.getElementById("closePad").addEventListener("click", closePad);
+      modal.addEventListener("click", function (event) { if (event.target === modal) closePad(); });
+      document.addEventListener("keydown", function (event) { if (event.key === "Escape" && modal.classList.contains("open")) closePad(); });
+      document.getElementById("clearPad").addEventListener("click", function () {
+        undoStack.push(canvasSnapshot());
+        var rect = canvas.getBoundingClientRect();
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, rect.width, rect.height);
+      });
+      document.getElementById("undoPad").addEventListener("click", function () {
+        if (undoStack.length) loadCanvasImage(undoStack.pop());
+      });
+      document.getElementById("donePad").addEventListener("click", function () {
+        drawnSignature = canvasSnapshot();
+        var preview = document.getElementById("drawnPreview");
+        preview.src = drawnSignature;
+        preview.hidden = false;
+        document.getElementById("drawPrompt").hidden = true;
+        closePad();
+      });
+      window.addEventListener("resize", function () { if (modal.classList.contains("open")) sizeCanvas(); });
 
-  shareBtn.addEventListener("click", function(){
-    if (!lastPdfBlob) return;
-    var file = new File([lastPdfBlob], PDF_FILENAME, { type:"application/pdf" });
-    if (navigator.canShare && navigator.canShare({ files:[file] })){
-      navigator.share({ files:[file], title:"Signed appraisal demand \u2014 Floyd Massey" }).catch(function(){});
-    } else if (navigator.share){
-      navigator.share({ title:"Signed appraisal demand \u2014 Floyd Massey", text:"Signed appraisal demand letter for Floyd Massey (99-3254). The PDF file is downloaded from this page." }).catch(function(){});
-    } else {
-      showStatus("warn", "<strong>Sharing isn\u2019t available in this browser.</strong>Use the \u201CDownload your signed letter\u201D button above, then text or email the file to RoofLife.");
-    }
-  });
-})();
-</script>
+      function formatDate(iso) {
+        if (!iso) return "";
+        var parts = iso.split("-");
+        return parts[1] + "/" + parts[2] + "/" + parts[0];
+      }
+      function validate() {
+        var message = "";
+        if (signatureMode === "draw" && !drawnSignature) message = "Please add your signature.";
+        if (signatureMode === "type" && !typedName.value.trim()) message = "Please type your signature.";
+        if (!dateInput.value) message = "Please enter the signing date.";
+        if (!document.getElementById("consent").checked) message = "Please confirm the statement before sending.";
+        document.getElementById("validation").textContent = message;
+        return !message;
+      }
+      function updatePdfSignature() {
+        var holder = document.getElementById("pdfSignatureMark");
+        holder.innerHTML = "";
+        if (signatureMode === "draw") {
+          var image = document.createElement("img");
+          image.src = drawnSignature;
+          image.alt = "";
+          holder.appendChild(image);
+        } else {
+          var text = document.createElement("div");
+          text.className = "pdf-typed-signature";
+          text.textContent = typedName.value.trim();
+          holder.appendChild(text);
+        }
+        document.getElementById("pdfDate").textContent = formatDate(dateInput.value);
+      }
+
+      document.getElementById("sendButton").addEventListener("click", async function () {
+        var button = this;
+        var status = document.getElementById("status");
+        status.className = "status";
+        status.textContent = "";
+        if (!validate()) return;
+        if (!window.html2canvas || !window.jspdf || !window.jspdf.jsPDF) {
+          status.className = "status failure show";
+          status.textContent = "The document tools did not load. Please check your connection and try again.";
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Preparing your letter\u2026";
+        updatePdfSignature();
+        try {
+          if (document.fonts && document.fonts.ready) await document.fonts.ready;
+          var page = document.getElementById("pdfPage");
+          var rendered = await window.html2canvas(page, {
+            scale: 2,
+            width: 816,
+            windowWidth: 816,
+            backgroundColor: "#ffffff",
+            useCORS: true,
+            logging: false
+          });
+          var pdf = new window.jspdf.jsPDF({ orientation: "portrait", unit: "pt", format: "letter", compress: true });
+          pdf.setProperties({ title: "Signed appraisal demand - " + person + " - " + job, subject: "Signed appraisal demand", author: person, creator: "Appraisal Demand Signing" });
+          var pageW = 612, pageH = 792;
+          var imgData = rendered.toDataURL("image/jpeg", .92);
+          var totalH = rendered.height * (pageW / rendered.width);
+          var pageCount = Math.max(1, Math.ceil(totalH / pageH));
+          for (var i = 0; i < pageCount; i++) {
+            if (i > 0) pdf.addPage();
+            pdf.addImage(imgData, "JPEG", 0, -(i * pageH), pageW, totalH, undefined, "FAST");
+          }
+          var dataUri = pdf.output("datauristring");
+          var pdfBase64 = dataUri.substring(dataUri.indexOf(",") + 1);
+          var payload = {
+            pdfBase64: pdfBase64,
+            filename: "Signed appraisal demand - " + person + " - " + job + ".pdf",
+            subject: "Signed appraisal demand \u2014 " + person + " " + job,
+            body: "Signed appraisal demand attached for " + person + " (job " + job + ")."
+          };
+
+          button.textContent = "Sending\u2026";
+          var sendDelays = [1000, 3000];
+          var sent = false;
+          for (var attempt = 0; attempt < 3 && !sent; attempt++) {
+            try {
+              await fetch(ENDPOINT, {
+                method: "POST",
+                mode: "no-cors",
+                credentials: "omit",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify(payload)
+              });
+              sent = true;
+            } catch (sendError) {
+              if (attempt < 2) {
+                await new Promise(function (resolve) { setTimeout(resolve, sendDelays[attempt]); });
+              }
+            }
+          }
+          if (!sent) throw new Error("Send failed after 3 attempts");
+
+          status.className = "status success show";
+          status.textContent = "Thank you \u2014 your signed letter has been sent.";
+          button.textContent = "Sent";
+          button.disabled = true;
+          status.scrollIntoView({ behavior: "smooth", block: "center" });
+        } catch (error) {
+          status.className = "status failure show";
+          status.textContent = "We couldn't send the letter. Please check your connection and try again.";
+          button.disabled = false;
+          button.textContent = "Finish & Send";
+        }
+      });
+    }());
+  </script>
 </body>
 </html>
